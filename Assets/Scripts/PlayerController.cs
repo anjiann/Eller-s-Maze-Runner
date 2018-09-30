@@ -5,6 +5,7 @@ using UnityEngine;
 [RequireComponent(typeof(PlayerMotor))]
 public class PlayerController : MonoBehaviour {
     [SerializeField] private float speed = 5f;
+    [SerializeField] private float jumpForce = 9.8f;
     [SerializeField] private float lookSensitivity = 3f;
 
     [SerializeField] private PlayerMotor motor;
@@ -26,15 +27,21 @@ public class PlayerController : MonoBehaviour {
         Vector3 velocity = (moveHorizontal + moveVertical).normalized * speed;
         motor.Move(velocity);
 
-        //rotation
-        float yRot = Input.GetAxisRaw("Mouse X"); //when we move our mouse on the x, rotate around the y
-        Vector3 rotation = new Vector3(0f, yRot, 0f) * lookSensitivity;
-        motor.Rotate(rotation);
+        //jump
+        if (Input.GetKeyDown("space")) {
+            print("space was pressed");
+            motor.Jump(jumpForce);
+        }
 
-        //camera rotation
+        //rotation around the y axis
+        float yRot = Input.GetAxisRaw("Mouse X"); //when we move our mouse on the x, rotate around the y
+        Vector3 rotationY = new Vector3(0f, yRot, 0f) * lookSensitivity;
+        motor.RotateY(rotationY);
+
+        //rotation around the x axis
         float xRot = Input.GetAxisRaw("Mouse Y"); //when we move our mouse on the x, rotate around the y
 
-        Vector3 cameraRotation = new Vector3(xRot, 0f, 0f) * lookSensitivity;
-        motor.RotateCamera(cameraRotation);
+        Vector3 rotationX = new Vector3(xRot, 0f, 0f) * lookSensitivity;
+        motor.RotateX(rotationX);
     }
 }

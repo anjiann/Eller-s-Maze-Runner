@@ -7,7 +7,7 @@ public class PlayerMotor : MonoBehaviour {
     [SerializeField] private Camera cam;
 
     private Vector3 velocity = Vector3.zero;
-    private Vector3 rotation = Vector3.zero;
+    private Vector3 rotationY = Vector3.zero;
     private Vector3 cameraRotation = Vector3.zero;
 
 
@@ -22,12 +22,16 @@ public class PlayerMotor : MonoBehaviour {
         velocity = _velocity;
     }
 
-    public void Rotate(Vector3 _rotation) {
-        rotation = _rotation;
+    public void RotateY(Vector3 _rotationY) {
+        rotationY = _rotationY;
     }
 
-    public void RotateCamera(Vector3 _cameraRotation) {
-        cameraRotation = _cameraRotation;
+    public void RotateX(Vector3 _rotationX) {
+        cameraRotation = _rotationX;
+    }
+
+    public void Jump(float jumpForce) {
+        rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
     }
 
     //run every physics iteration
@@ -44,7 +48,7 @@ public class PlayerMotor : MonoBehaviour {
     }
 
     private void PerformRotation() {
-        rb.MoveRotation(rb.rotation * Quaternion.Euler(rotation));
+        rb.MoveRotation(rb.rotation * Quaternion.Euler(rotationY));
         if (cam != null) {
             cam.transform.Rotate(-cameraRotation);
         }

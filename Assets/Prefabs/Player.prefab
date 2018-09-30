@@ -111,8 +111,8 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1181102507528170}
-  m_LocalRotation: {x: -0, y: -0.729259, z: -0, w: 0.6842378}
-  m_LocalPosition: {x: 14.83, y: 1.76, z: -2.39}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 5.05, y: 2.65, z: 1.66}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4931340079716576}
@@ -225,11 +225,11 @@ Rigidbody:
   serializedVersion: 2
   m_Mass: 1
   m_Drag: 0
-  m_AngularDrag: 0.05
+  m_AngularDrag: 0.5
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 0
+  m_Constraints: 112
   m_CollisionDetection: 0
 --- !u!81 &81315595594721332
 AudioListener:
@@ -249,6 +249,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3e1f9db2649e89c40a1abd4b0fb2f8c3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  cam: {fileID: 20764350610614842}
   rb: {fileID: 54555727519133762}
 --- !u!114 &114786151579579374
 MonoBehaviour:
@@ -262,6 +263,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 5
+  jumpForce: 9.8
   lookSensitivity: 3
   motor: {fileID: 114179178472063338}
 --- !u!135 &135910260909283800
