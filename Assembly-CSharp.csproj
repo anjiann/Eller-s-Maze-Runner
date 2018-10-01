@@ -61,11 +61,11 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\Scripts\Cell.cs" />
     <Compile Include="Assets\Scripts\Maze.cs" />
     <Compile Include="Assets\Scripts\NewRowCollider.cs" />
     <Compile Include="Assets\Scripts\PlayerController.cs" />
     <Compile Include="Assets\Scripts\PlayerMotor.cs" />
-    <Compile Include="Assets\Scripts\Tuple.cs" />
     <Reference Include="UnityEditor.StandardEvents">
       <HintPath>C:/Users/Andy/Documents/Repos/Unity3D/Eller's Maze Runner/Library/ScriptAssemblies/UnityEditor.StandardEvents.dll</HintPath>
     </Reference>
