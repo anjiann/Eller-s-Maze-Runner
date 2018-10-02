@@ -3,21 +3,30 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Cell : MonoBehaviour {
-    public Cell leftCell = null;
-    public Cell rightCell = null;
-
     public bool addFrontWall = false;
+    public bool addRightWall = false;
+    public bool isIsolated;
+    public int set;
     public int indexX;
     public int indexZ;
-    public int set;
+
 
     public Cell(int z, int x) {
         indexZ = z;
         indexX = x;
     }
 
-    public bool IsLast() {
-        if (rightCell == null) return true;
-        return false;
+    public int getX() {
+        return indexX;
+    }
+
+    public Cell Clone() {
+        Cell cell = new Cell(indexZ, indexX);
+        cell.addFrontWall = addFrontWall;
+        cell.addRightWall = addRightWall;
+        cell.isIsolated = isIsolated;
+        cell.set = set;
+
+        return cell;
     }
 }
