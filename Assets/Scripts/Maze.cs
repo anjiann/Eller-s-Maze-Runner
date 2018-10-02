@@ -6,7 +6,7 @@ using UnityEngine;
 public class Maze : MonoBehaviour {
     [SerializeField] private int unitsPerCell = 4;
     [SerializeField] private int cellsPerRow = 8;
-    [SerializeField] private int mazeBias = 20; //b/w 0 and 100
+    [SerializeField] private int mazeBias = 50; //b/w 0 and 100
 
     [SerializeField] private GameObject mazeRow;
     [SerializeField] private GameObject sideWall;
@@ -15,6 +15,7 @@ public class Maze : MonoBehaviour {
 
     private int rowNumber;
     private float newRowPosZ;
+    private Cell firstCell;
     private List<List<Cell>> setsOfCells; //each value in the dictionary is a connected set of tiles. the nested dictionary represents the zx coordinate
 
     private void Start() {
@@ -48,36 +49,57 @@ public class Maze : MonoBehaviour {
     private void AddNewCellsToSets() {
         //first row
         if (rowNumber == 0) {
-            for (int i = 0; i < setsOfCells.Count; i++) {
-                setsOfCells[i].Add(new Cell(rowNumber, i));
+            firstCell = new Cell(rowNumber, 0);
+            firstCell.set = 0;
+            setsOfCells[0].Add(firstCell);
+            for (int i = 1; i < setsOfCells.Count; i++) {
+                Cell newCell = new Cell(rowNumber, i);
+                newCell.set = i;
+                setsOfCells[i].Add(newCell);
+                setsOfCells[i][0].leftCell = setsOfCells[i - 1][0];
+                setsOfCells[i - 1][0].rightCell = setsOfCells[i][0];
+
             }
             return;
         }
 
+        //add vertical connections
+        Cell prevCell = null;
         for (int i = 0; i < setsOfCells.Count; i++) {
             int verticalConnections = 0;
 
             for (int j = 0; j < setsOfCells[i].Count; j++) {
                 Cell oldCell = setsOfCells[i][j];
                 Cell newCell = new Cell(rowNumber, oldCell.indexX);
-                if (mazeBias < UnityEngine.Random.Range(0, 100)) {
-                    //making a vertical connection and replacing the cell from the previous row with the cell from the new row
+
+                if (verticalConnections == 0) {
+                    //making a vertical connection
                     newCell.set = oldCell.set;
                     setsOfCells[i][j] = newCell;
 
                     verticalConnections++;
                 }
-                else if(verticalConnections > 0) {
+                else {
                     //no vertical connection made, therefore add a wall in b/w current newCell and OldCell
                     //remove oldCell and add newCell to an empty set
-                    newCell.addWall = true;
+                    
+                    newCell.addFrontWall = true;
                     int x = FindEmptySetIndex();
                     newCell.set = x;
                     setsOfCells[x].Add(newCell);
 
                     setsOfCells[i].RemoveAt(j);
                 }
-                
+
+                if (newCell.indexX == 0) {
+                    firstCell = newCell;
+                }
+                else {
+                    prevCell.rightCell = newCell;
+                }
+
+                newCell.leftCell = prevCell;
+                prevCell = newCell;
             }
         }
     }
@@ -90,15 +112,23 @@ public class Maze : MonoBehaviour {
     }
 
     private void MergeCells() {
-        for(int i = 1; i < setsOfCells.Count; i++) {
-            List<Cell> s1 = setsOfCells[i - 1];
-            List<Cell> s2 = setsOfCells[i];
-            if (mazeBias < UnityEngine.Random.Range(1, 100)) { //merge with neighbouring cell
-                appendList(s2, s1);
 
-                //empty the set
-                s1.Clear();
+        Cell cell = firstCell;
+        while (cell.indexX != 7) {
+            //print("cell index is " + cell.indexX);
+            //float num = UnityEngine.Random.Range(0, 100);
+            //print(mazeBias < num && cell.rightCell.set != cell.set);
+            //print("right cell index is " + cell.rightCell.indexX);
+            //print("mazeBias is " + mazeBias + " ... random is " + num);
+            //print("my set is " + cell.set + "... my right cell set is " + cell.rightCell.set);
+            if (mazeBias < UnityEngine.Random.Range(0, 100) && cell.rightCell.set != cell.set) {//merge
+                int s = cell.rightCell.set;
+                setsOfCells[cell.set].Add(cell.rightCell);
+                setsOfCells[cell.rightCell.set].Remove(cell.rightCell);
+
+                cell.rightCell.set = cell.set;
             }
+            cell = cell.rightCell;
         }
     }
 
@@ -116,33 +146,26 @@ public class Maze : MonoBehaviour {
         Vector3 pos = new Vector3(0, 0, newRowPosZ + unitsPerCell / 2);
         Instantiate(mazeRow, pos, Quaternion.identity);
 
-        //wall between rows
-        
-    
-        //side walls
+        //walls
         int endBound = cellsPerRow * unitsPerCell / 2;
         pos.y = 2;
         pos.z = newRowPosZ + unitsPerCell / 2;
-        //generate a side wall per set of cells and a front wall if the cell requires one
-        for (int i = 0; i < setsOfCells.Count; i++) {
-            int x = 0;
-            //find the rightmost(east side or the +x axis) cell in the set
-            for (int j = 0; j < setsOfCells[i].Count; j++) {
-                int num = setsOfCells[i][j].indexX;
-                x = (num > x) ? num : x;
 
-                //front wall
-                if (setsOfCells[i][j].addWall) {
-                    float wallPosX = -endBound + unitsPerCell / 2 + setsOfCells[i][j].indexX * unitsPerCell;
-                    Vector3 wallPos = new Vector3(wallPosX, 2, newRowPosZ);
-                    Instantiate(frontWall, wallPos, Quaternion.identity);
-                }
-            }
-            if (x != 0) { //if the set isn't empty
-                pos.x = -endBound + x * unitsPerCell;
+        Cell cell = firstCell;
+        while (cell.indexX != 7) {
+            if (cell.rightCell.set != cell.set) { // side wall
+                pos.x = -endBound + unitsPerCell + cell.indexX * unitsPerCell;
                 Instantiate(sideWall, pos, Quaternion.identity);
             }
+            if (cell.addFrontWall) {
+                float posX = -endBound + unitsPerCell / 2 + cell.indexX * unitsPerCell;
+                Instantiate(frontWall, new Vector3(posX, 2, newRowPosZ), Quaternion.identity);
+            }
+            print("cell " + cell.indexX + "value of addFrontWall is " + cell.addFrontWall);
+
+            cell = cell.rightCell;
         }
+
         //generate leftmost and rightmost wall
         pos.x = -endBound;
         Instantiate(sideWall, pos, Quaternion.identity);
