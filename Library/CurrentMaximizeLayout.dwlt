@@ -22,7 +22,7 @@ MonoBehaviour:
   m_MinSize: {x: 711, y: 492}
   m_MaxSize: {x: 18006, y: 14042}
   vertical: 1
-  controlID: 1759
+  controlID: 277
 --- !u!114 &2
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -126,7 +126,7 @@ MonoBehaviour:
   m_MinSize: {x: 711, y: 492}
   m_MaxSize: {x: 18006, y: 14042}
   vertical: 0
-  controlID: 1760
+  controlID: 278
 --- !u!114 &4
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -150,7 +150,7 @@ MonoBehaviour:
   m_MinSize: {x: 202, y: 421}
   m_MaxSize: {x: 4002, y: 8021}
   vertical: 1
-  controlID: 1761
+  controlID: 256
 --- !u!114 &5
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -203,14 +203,14 @@ MonoBehaviour:
     height: 626
   m_PersistentViewDataDictionary: {fileID: 0}
   m_SceneLighting: 1
-  lastFramingTime: 4778.381933679818
+  lastFramingTime: 6115.414073297745
   m_2DMode: 0
   m_isRotationLocked: 0
   m_AudioPlay: 0
   m_Position:
-    m_Target: {x: 0, y: 1, z: 5.25}
+    m_Target: {x: -0.9054492, y: 8.841379, z: 17.870785}
     speed: 2
-    m_Value: {x: 0, y: 1, z: 5.25}
+    m_Value: {x: -0.9054492, y: 8.841379, z: 17.870785}
   m_RenderMode: 0
   m_CameraMode:
     drawMode: 0
@@ -238,19 +238,19 @@ MonoBehaviour:
       speed: 2
       m_Value: 0
   m_Rotation:
-    m_Target: {x: -0.18572737, y: -0.6788514, z: 0.18373191, w: -0.68622786}
+    m_Target: {x: -0.5271524, y: -0.012237755, z: 0.007592834, w: -0.8496488}
     speed: 2
-    m_Value: {x: 0.18572737, y: 0.6788515, z: -0.18373191, w: 0.68622786}
+    m_Value: {x: -0.5271524, y: -0.012237755, z: 0.0075928336, w: -0.8496488}
   m_Size:
-    m_Target: 29.238684
+    m_Target: 21.620058
     speed: 2
-    m_Value: 29.238684
+    m_Value: 21.620058
   m_Ortho:
     m_Target: 0
     speed: 2
     m_Value: 0
   m_ShowGlobalGrid: 1
-  m_LastSceneViewRotation: {x: -0.08717229, y: 0.89959055, z: -0.21045254, w: -0.3726226}
+  m_LastSceneViewRotation: {x: 0.08717229, y: -0.89959055, z: 0.21045254, w: 0.3726226}
   m_LastSceneViewOrtho: 0
   m_ReplacementShader: {fileID: 0}
   m_ReplacementString: 
@@ -346,7 +346,7 @@ MonoBehaviour:
   m_MinSize: {x: 234, y: 492}
   m_MaxSize: {x: 10004, y: 14042}
   vertical: 1
-  controlID: 1791
+  controlID: 279
 --- !u!114 &10
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -399,9 +399,9 @@ MonoBehaviour:
   m_PersistentViewDataDictionary: {fileID: 0}
   m_TreeViewState:
     scrollPos: {x: 0, y: 0}
-    m_SelectedIDs: dcafffff
-    m_LastClickedID: -20516
-    m_ExpandedIDs: c6fbffffd0fbffff00000000660c0000
+    m_SelectedIDs: dcfbffff
+    m_LastClickedID: -1060
+    m_ExpandedIDs: dcfbffffe6fbffff00000000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -499,9 +499,9 @@ MonoBehaviour:
     m_IsLocked: 0
   m_FolderTreeState:
     scrollPos: {x: 0, y: 0}
-    m_SelectedIDs: de090000
-    m_LastClickedID: 2526
-    m_ExpandedIDs: 000000005e0900009a2d00009c2d00009e2d000000ca9a3b
+    m_SelectedIDs: fe090000
+    m_LastClickedID: 2558
+    m_ExpandedIDs: 0000000078090000242e0000262e0000282e000000ca9a3b
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -529,7 +529,7 @@ MonoBehaviour:
     scrollPos: {x: 0, y: 0}
     m_SelectedIDs: 
     m_LastClickedID: 0
-    m_ExpandedIDs: 000000005e0900009a2d00009c2d00009e2d000000ca9a3b
+    m_ExpandedIDs: 0000000078090000242e0000262e0000282e000000ca9a3b
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -554,9 +554,9 @@ MonoBehaviour:
       m_Icon: {fileID: 0}
       m_ResourceFile: 
   m_ListAreaState:
-    m_SelectedInstanceIDs: dcafffff
-    m_LastClickedInstanceID: -20516
-    m_HadKeyboardFocusLastEvent: 0
+    m_SelectedInstanceIDs: dcfbffff
+    m_LastClickedInstanceID: -1060
+    m_HadKeyboardFocusLastEvent: 1
     m_ExpandedInstanceIDs: c623000000060000860a00005a31ffff220c0000d00d00001a0c00009a2a000000000000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
@@ -581,7 +581,7 @@ MonoBehaviour:
       m_Icon: {fileID: 0}
       m_ResourceFile: 
     m_NewAssetIndexInList: -1
-    m_ScrollPosition: {x: 0, y: 0}
+    m_ScrollPosition: {x: 0, y: 305}
     m_GridSize: 64
   m_DirectoriesAreaWidth: 110
 --- !u!114 &14

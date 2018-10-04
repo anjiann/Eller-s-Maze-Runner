@@ -10,10 +10,12 @@ public class Maze : MonoBehaviour {
     [SerializeField] private int mazeBias = 80; //b/w 0 and 100
 
     [SerializeField] private GameObject mazeRow;
+    [SerializeField] private GameObject boundaryWall;
     [SerializeField] private GameObject terminatingWall;
     [SerializeField] private GameObject sideWall;
     [SerializeField] private GameObject frontWall;
     [SerializeField] private GameObject newRowCollider;
+    [SerializeField] private GameObject projectile;
 
     private Cell[,] maze = new Cell[8, 8]; //mxn matrix of Cells
 
@@ -34,23 +36,10 @@ public class Maze : MonoBehaviour {
     public void GenerateRow(float colliderPosZ) {
         newRowPosZ = colliderPosZ;
         rowNumber++;
-        print("\nrow number is " + rowNumber);
-
-        //print("--------------");
-        //print("test 1");
-        //for (int i = 0; i < setsOfCells.Count; i++) {
-        //    for (int j = 0; j < setsOfCells[i].Count; j++) {
-        //        print(setsOfCells[i][j].indexX);
-        //    }
-        //}
-        //print("--------------");
-
         ConnectVertical();
         FillRow();
         MergeCells();
         InstantiatePrefabs();
-
-
     }
 
 
@@ -93,10 +82,6 @@ public class Maze : MonoBehaviour {
                 }
             }
         }
-
-        print("after adding vertical connections");
-        printIndices();
-        printSets();
     }
 
     private void FillRow() {
@@ -117,10 +102,6 @@ public class Maze : MonoBehaviour {
                 setsOfCells[x].Add(cell);
             }
         }
-
-        print("after filling rows");
-        printIndices();
-        printSets();
     }
 
     //return the index of the first empty set in the list of sets, -1 if no empty set was found.
@@ -132,27 +113,19 @@ public class Maze : MonoBehaviour {
     }
 
     private void MergeCells() {
-        //end of the maze, merge all cells into the same set
-
-        print("BEFORE MERGECELL");
-        printIndices();
-        printSets();
-
 
         for (int i = 0; i < cellsPerRow - 1; i++) {
-            printIndices();
-            printSets(); 
-
             Cell currentCell = maze[rowNumber, i];
             print("the index of currentCell is " + currentCell.indexX);
             Cell rightCell = maze[rowNumber, i + 1];
             print("the index of rightCell is " + rightCell.indexX);
+            //end of the maze, merge all cells into the same set
             if (rowNumber + 1 == mazeDepth && currentCell.set != rightCell.set) {
                 removeFromSet(rightCell.indexX);
 
                 rightCell.set = currentCell.set;
                 setsOfCells[currentCell.set].Add(rightCell);
-            }
+            } //otherwise merge adjacent cells randomly
             else if (mazeBias < UnityEngine.Random.Range(0, 100) && currentCell.set != rightCell.set) {
                 removeFromSet(rightCell.indexX);
 
@@ -163,10 +136,6 @@ public class Maze : MonoBehaviour {
                 maze[rowNumber, i].addRightWall = true;
             }
         }
-
-        print("AFTER MERGECELL");
-        printIndices();
-        printSets();
     }
 
     private void removeFromSet(int cellIndexX) {
@@ -182,12 +151,22 @@ public class Maze : MonoBehaviour {
     }
 
     private void InstantiatePrefabs() {
+        int endBound = cellsPerRow * unitsPerCell / 2;
+
+        //populate first row with projectiles
+        Vector3 pos = new Vector3(-endBound + unitsPerCell / 2, 1, newRowPosZ + unitsPerCell / 2);
+        if (rowNumber == 0) {
+            for(int i = 0; i < cellsPerRow; i++) {
+                pos.x = -endBound + unitsPerCell / 2 + i * unitsPerCell;
+                Instantiate(projectile, pos, Quaternion.identity);
+            }
+        }
+
         //ground
-        Vector3 pos = new Vector3(0, 0, newRowPosZ + unitsPerCell / 2);
+        pos = new Vector3(0, 0, newRowPosZ + unitsPerCell / 2);
         Instantiate(mazeRow, pos, Quaternion.identity);
 
         //walls
-        int endBound = cellsPerRow * unitsPerCell / 2;
         pos.y = 2;
         pos.z = newRowPosZ + unitsPerCell / 2;
 
@@ -205,9 +184,9 @@ public class Maze : MonoBehaviour {
 
         //generate leftmost and rightmost wall
         pos.x = -endBound;
-        Instantiate(sideWall, pos, Quaternion.identity);
+        Instantiate(boundaryWall, pos, Quaternion.identity);
         pos.x = endBound;
-        Instantiate(sideWall, pos, Quaternion.identity);
+        Instantiate(boundaryWall, pos, Quaternion.identity);
 
         //generate terminating wall or a new row collider
         pos.x = 0;
@@ -220,33 +199,31 @@ public class Maze : MonoBehaviour {
             Instantiate(newRowCollider, pos, Quaternion.identity);
             FindObjectOfType<NewRowCollider>().maze = this;
         }
-        
-        print("before adding vertical connections");
-        //printIndices();
-        printSets();
     }
 
-    private void printIndices() {
-        print("-------printing indices -----");
+    ////for testing
+    //private void printIndices() {
+    //    print("-------printing indices -----");
 
-        string s = "";
-        for (int i = 0; i < setsOfCells.Count; i++) {
-            for (int j = 0; j < setsOfCells[i].Count; j++) {
-                s = s + setsOfCells[i][j].indexX + " ";
-            }
-        }
-        Debug.Log(s);
-        print("-----------------------------");
-    }
+    //    string s = "";
+    //    for (int i = 0; i < setsOfCells.Count; i++) {
+    //        for (int j = 0; j < setsOfCells[i].Count; j++) {
+    //            s = s + setsOfCells[i][j].indexX + " ";
+    //        }
+    //    }
+    //    Debug.Log(s);
+    //    print("-----------------------------");
+    //}
 
-    private void printSets() {
-        print("------printing maze row------");
-        string row = "";
-        for (int j = 0; j < 8; j++) {
-            row = row + maze[rowNumber, j].set + " ";
-        }
-        Debug.Log(row);
-        print("-------------------------");
-    }
-    
+    ////for testing
+    //private void printSets() {
+    //    print("------printing maze row------");
+    //    string row = "";
+    //    for (int j = 0; j < 8; j++) {
+    //        row = row + maze[rowNumber, j].set + " ";
+    //    }
+    //    Debug.Log(row);
+    //    print("-------------------------");
+    //}
+
 }

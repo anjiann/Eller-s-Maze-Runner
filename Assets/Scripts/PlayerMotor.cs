@@ -13,6 +13,11 @@ public class PlayerMotor : MonoBehaviour {
 
     [SerializeField] private Rigidbody rb;
 
+    [SerializeField] private GameObject projectile;
+
+    public float fallMultiplier = 2.5f;
+    public float lowJumpMultiplier = 2f;
+
 	// Use this for initialization
 	void Start () {
         rb = GetComponent<Rigidbody>();
@@ -32,6 +37,14 @@ public class PlayerMotor : MonoBehaviour {
 
     public void Jump(float jumpForce) {
         rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
+    }
+
+    public void Shoot() {
+        Vector3 pos = transform.position + cam.transform.forward * 1.5f;
+        GameObject bullet = Instantiate(projectile, pos, Quaternion.identity);
+
+        bullet.GetComponent<Rigidbody>().velocity = transform.forward * 8;
+
     }
 
     //run every physics iteration
