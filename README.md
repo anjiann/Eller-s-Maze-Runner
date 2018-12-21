@@ -1,1 +1,6 @@
-3D maze runner game in Unity
+- first 3D maze runner game showcasing Eller's maze generation algorithm in Unity
+- player begins in the left half of a terrain where the right half (the end goal) of the terrain is separated by a transparent wall
+- the maze is generated at runtime. A new row of maze cells is generated when player enters the new row
+- player can enter the maze at one entry point in the left half and exit at one exit point in the right half 
+- player can pick up projectiles and destroy maze walls or shoot it into the abyss to generate new maze rows
+- player can jump laterally to observe the maze structure
